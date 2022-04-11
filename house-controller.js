@@ -1,5 +1,5 @@
 
-import houseDao from "./house-dao";
+import houseDao from "./house-dao.js";
 
 
 //Add async to all the functions in tuits-controller

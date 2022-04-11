@@ -1,4 +1,4 @@
-import houseModel from ".idea/house-model";
+import houseModel from "./house-model.js";
 
 export const findAllTuits = () => houseModel.find();
 // export const createTuit = (tuit) => tuitsModel.create(tuit);
