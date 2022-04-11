@@ -9,5 +9,5 @@ const schema = mongoose.Schema({
     star: Number,
     price: String,
     total: String
-}, {collection: 'house'}); // which collection name
+}, {collection: 'houses'}); // which collection name
 export default schema; // export schema so it can be used elsewhere

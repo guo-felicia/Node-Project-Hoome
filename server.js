@@ -7,7 +7,7 @@ mongoose.connect(`mongodb+srv://feliciagtf:shotwell@cluster0.immtk.mongodb.net/m
 const app = express();
 app.use(cors());
 
-app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')});
+app.get('/', (req, res) => {res.send('This is Hoome remote database!')});
 app.use(express.json());
 houseController(app);
 // //local
