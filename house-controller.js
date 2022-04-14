@@ -10,16 +10,15 @@ const findAllResults = async (req, res) => {
 }
 
 const findResultById = async (req, res) => {
-    const resultId = req.params.uid;
-    const results = await houseDao.findAllResults()
-    const result = results.find(u => u._id === resultId);
+    const resultId = req.params['id'];
+    const result = await houseDao.findResultById(resultId)
     res.json(result);
 }
 
 
 const houseController = async(app) => {
-    app.get('/api/results', findAllResults);
-    app.get('/api/results/:resultId', findResultById);
+    app.get('/api/search', findAllResults);
+    app.get('/api/search/:id', findResultById);
 }
 
 export default houseController;
