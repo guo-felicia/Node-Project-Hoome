@@ -1,16 +1,18 @@
 import express from 'express';
 import cors from 'cors';
-import houseController from "./house-controller.js";
 import mongoose from "mongoose";
+import questionsController from "./Questions/questions-controller.js";
+import reviewsController from "./Reviews/reviews-controller.js";
 
-mongoose.connect(`mongodb+srv://feliciagtf:shotwell@cluster0.immtk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&authSource=admin`);
+mongoose.connect(`mongodb+srv://felicia:felicia726@cluster0.uovsx.mongodb.net/Hoome?retryWrites=true&w=majority`);
 const app = express();
 app.use(cors());
 
-app.get('/', (req, res) => {res.send('This is Hoome remote database!')});
+app.get('/', (req, res) => {
+    res.send('This is Hoome remote database!')
+});
 app.use(express.json());
-houseController(app);
-// //local
-// // app.listen(4000);
+questionsController(app);
+reviewsController(app);
 //Heroku
 app.listen(process.env.PORT || 4000);
