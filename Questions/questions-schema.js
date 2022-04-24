@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
-const schema = mongoose.Schema({
-    question: String,
-    likes: Number,
-    postedBy: {
-        username: String
-    }
-}, {collection: 'questions'});
+
+const schema = mongoose.Schema(
+    {
+        question: String,
+        likes: Number,
+        dislikes: Number,
+        postedBy: {
+            username: String
+        },
+        avatar: String
+    }, {collection: 'questions'});
 export default schema;

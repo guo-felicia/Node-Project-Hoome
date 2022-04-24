@@ -11,33 +11,31 @@ const findAll = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    const newTuit = req.body;
-    newTuit.avatar = "/img/avatar/userav.jpeg";
-    newTuit.postedBy = {username: "Felicia"};
-    newTuit.handle = "feliciagtf";
-    newTuit.likes = 0;
-    newTuit.dislikes = 0;
-    console.log(newTuit);
-    const insertedTuit = await questionsDao.create(newTuit);
+    const newQuestion = req.body;
+    newQuestion.avatar = "/img/avatar/userav.jpeg";
+    newQuestion.postedBy = {username: "Felicia"};
+    newQuestion.likes = 0;
+    newQuestion.dislikes = 0;
+    const insertedQuestion = await questionsDao.create(newQuestion);
     //more functions
-    
-    res.json(insertedTuit);
+    res.json(insertedQuestion);
 }
 
+const deleteQuestion = async (req, res) => {
+    const questionIdToDelete = req.params.id;
+    const status = await questionsDao.deleteQuestion(questionIdToDelete);
+    res.send(status);
+}
 
 const update = async (req, res) => {
-    const tuitdIdToUpdate = req.params.tid;
+    const tuitdIdToUpdate = req.params.id;
     const updatedTuit = req.body;
     const status = await questionsDao.update(tuitdIdToUpdate, updatedTuit);
     res.send(status);
 }
 
 
-const deleteQuestion = async (req, res) => {
-    const tuitdIdToDelete = req.params.tid;
-    const status = await questionsDao.deleteQuestion(tuitdIdToDelete);
-    res.send(status);
-}
+
 
 
 const questionsController = async (app) => {
