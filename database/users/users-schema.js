@@ -1,20 +1,15 @@
 import mongoose from 'mongoose';
 const usersSchema = mongoose.Schema({
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true},
-    // firstName: String,
-    // lastName: String,
-    // signature: String,
-    // aboutyou: String,
-    // location: String,
-    // languages: String,
-    // jobs: String,
+    j: {type: String, required: true},
+    firstName: {type: String, default: 'New User'},
+    lastName: {type: String, default: ''},
+    signature: {type: String, default: ''},
+    aboutyou: {type: String, default: ''},
+    location: {type: String, default: ''},
+    languages: {type: String, default: ''},
+    jobs:{type: String, default: ''},
 }, {collection: "users"})
 
-const userSchema = mongoose.Schema({
-
-    role:{type:String, enum:['STUDENT', 'FACULTY']}
-
-})
 
 export default usersSchema;

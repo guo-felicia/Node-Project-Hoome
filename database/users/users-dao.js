@@ -30,10 +30,17 @@ const updateUser = (id, updatedUser) => {
     )
 }
 
+const updateUserInfo = (email, updatedUser) => {
+    return usersModel.updateOne(
+        {email: email},
+        {$set: updatedUser}
+    )
+}
+
 const usersDao = {
     findAllUsers, findUserById, findUserByEmail,
     findUserByCredentials, createUser, deleteUser,
-    updateUser
+    updateUser, updateUserInfo
 }
 
 export default usersDao;

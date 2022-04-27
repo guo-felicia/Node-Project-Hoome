@@ -48,21 +48,14 @@ const updateUser = async (req, res) => {
 // return a 403 if user already exist
 // return a json of the new created user if the user been create successfully
 const signup = async (req, res) => {
-    console.log('server signup been called, with body:')
     const user = req.body
-    console.log(user)
     const existed = await usersDao.findUserByEmail(user.email)
     if (existed) {
-        console.log('user already existed, which is')
-        console.log(existed)
         res.sendStatus(403)
     }
     else {
-        console.log('signup success')
         const newUser = await usersDao.createUser(user)
         req.session['currentUser'] = newUser;
-        console.log('sign in create a new user')
-        console.log(newUser)
         res.json(newUser)
     }
 }
@@ -71,7 +64,6 @@ const signin = async (req, res) => {
     const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
     if(existingUser) {
         req.session['currentUser'] = existingUser;
-        console.log(`sign in set the current user as ${req.session['currentUser']}`)
         return res.sendStatus(200)
     }
     else {
@@ -80,10 +72,7 @@ const signin = async (req, res) => {
 }
 
 const profile = async (req, res) => {
-    console.log('in profile')
     const currentUser = req.session['currentUser']
-    console.log('set current user successfully')
-    console.log(`current user is ${currentUser}`)
     if(currentUser) {
         res.json(currentUser)
     }
@@ -94,6 +83,16 @@ const profile = async (req, res) => {
 
 const logout = async (req, res) => {
 
+}
+
+const updateUserInfo = async (req, res) => {
+    const email = req.body.email
+    const updatedUser = req.body
+    const status = await usersDao.updateUserInfo(
+        email,
+        updatedUser
+    )
+    res.json(status)
 }
 
 const userController = (app) => {
@@ -108,7 +107,8 @@ const userController = (app) => {
     app.post('/api/users/credentials', findUserByCredentials)
     app.post('/api/users', createUser)
     app.delete('/api/users/:id', deleteUser)
-    app.put('/api/users/:id', updateUser)
+    app.put('/api/users/:id', updateUser) //currently don't want to use
+    app.put('/api/profile', updateUserInfo) //currently want to use
 }
 
 export default userController;
