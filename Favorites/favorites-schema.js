@@ -8,6 +8,6 @@ const schema = mongoose.Schema(
         name: String,
         bathrooms: Number,
         bedrooms: Number,
-        beds:Number
+        beds: Number
     }, {collection: 'favorites'});
 export default schema;
