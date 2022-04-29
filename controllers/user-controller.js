@@ -14,6 +14,13 @@ const findUserByEmail = async (req, res) => {
     const user = await usersDao.findUserByEmail(email)
     res.json(user)
 }
+
+const findUserByUsername = async (req, res) => {
+    const username = req.params.id
+    const user = await usersDao.findUserByUsername(username)
+    res.json(user)
+}
+
 const findUserByCredentials = async (req, res) => {
     const crendentials = req.body
     const email = crendentials.email
@@ -48,41 +55,41 @@ const updateUser = async (req, res) => {
 // return a 403 if user already exist
 // return a json of the new created user if the user been create successfully
 const signup = async (req, res) => {
-    const user = req.body
-    const existed = await usersDao.findUserByEmail(user.email)
-    if (existed) {
-        res.sendStatus(403)
-    }
-    else {
-        const newUser = await usersDao.createUser(user)
-        req.session['currentUser'] = newUser;
+    const credentials = req.body;
+    const existingUser = await usersDao.findUserByEmail(credentials.email)
+    if(existingUser) {
+        return res.sendStatus(403)
+    } else {
+        const newUser = await usersDao.createUser(credentials)
+        req.session['profile'] = newUser
         res.json(newUser)
     }
 }
 
 const signin = async (req, res) => {
-    const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
-    if(existingUser) {
-        req.session['currentUser'] = existingUser;
-        return res.sendStatus(200)
+    const credentials = req.body;
+    const profile = await usersDao.findUserByCredentials(credentials.email, credentials.password)
+    // const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
+    if (profile) {
+        req.session['profile'] = profile;
+        res.json(profile);
+        return;
     }
-    else {
-        return res.sendStatus(503)
-    }
+    res.sendStatus(403)
 }
 
 const profile = async (req, res) => {
-    const currentUser = req.session['currentUser']
-    if(currentUser) {
-        res.json(currentUser)
-    }
-    else {
-        res.sendStatus(403)
+    const profile = req.session['profile']
+    if(profile) {
+        res.json(profile)
+    } else {
+        res.sendStatus(503)
     }
 }
 
 const logout = async (req, res) => {
-
+    req.session.destroy()
+    res.sendStatus(200)
 }
 
 const updateUserInfo = async (req, res) => {
@@ -92,10 +99,14 @@ const updateUserInfo = async (req, res) => {
         email,
         updatedUser
     )
+    // TODO: use a try catch to make here safer
+    req.session['profile'] = updatedUser
     res.json(status)
 }
 
 const userController = (app) => {
+    app.get('/api/profile/:id',findUserByUsername)
+
     app.post('/api/signup', signup)
     app.post('/api/signin', signin)
     app.post('/api/profile', profile)

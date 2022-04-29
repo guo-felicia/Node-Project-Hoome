@@ -11,9 +11,10 @@ const findAll = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    const newQuestion = req.body;
+    const profile = req.body.profile;
+    const newQuestion = req.body.newQuestion;
     newQuestion.avatar = "/img/avatar/userav.jpeg";
-    newQuestion.postedBy = {username: "Felicia"};
+    newQuestion.postedBy = {firstName: profile.firstName, username: profile.username};
     newQuestion.likes = 0;
     newQuestion.dislikes = 0;
     const insertedQuestion = await questionsDao.create(newQuestion);

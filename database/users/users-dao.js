@@ -10,6 +10,11 @@ const findUserByEmail = (email) => {
     // return usersModel.findOne({email: email})
     return usersModel.findOne({email})
 }
+
+const findUserByUsername = (username) => {
+    return usersModel.findOne({'username' : username})
+}
+
 const findUserByCredentials = (email, password) => {
     return usersModel.findOne({email, password})
     // return usersModel.findOne({
@@ -38,7 +43,7 @@ const updateUserInfo = (email, updatedUser) => {
 }
 
 const usersDao = {
-    findAllUsers, findUserById, findUserByEmail,
+    findAllUsers, findUserById, findUserByEmail, findUserByUsername,
     findUserByCredentials, createUser, deleteUser,
     updateUser, updateUserInfo
 }
