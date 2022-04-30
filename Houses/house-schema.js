@@ -6,7 +6,7 @@ const schema = mongoose.Schema({
     location: String,
     title: String,
     description: String,
-    star: Number,
+    rating: Number,
     price: String,
     total: String
 }, {collection: 'houses'}); // which collection name
