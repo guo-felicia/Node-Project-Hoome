@@ -82,14 +82,26 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
     const credentials = req.body;
-    const profile = await usersDao.findUserByCredentials(credentials.email, credentials.password)
-    // const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
-    if (profile) {
-        req.session['profile'] = profile;
-        res.json(profile);
-        return;
+    if (credentials.role === 'host') {
+        const profile = await hostsDao.findUserByCredentials(credentials.email, credentials.password)
+        // const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
+        if (profile) {
+            req.session['profile'] = profile;
+            res.json(profile);
+            return;
+        }
+        res.sendStatus(403)
     }
-    res.sendStatus(403)
+    else {
+        const profile = await usersDao.findUserByCredentials(credentials.email, credentials.password)
+        // const existingUser = await usersDao.findUserByCredentials(req.body.email, req.body.password)
+        if (profile) {
+            req.session['profile'] = profile;
+            res.json(profile);
+            return;
+        }
+        res.sendStatus(403)
+    }
 }
 
 const profile = async (req, res) => {
@@ -109,19 +121,38 @@ const logout = async (req, res) => {
 const updateUserInfo = async (req, res) => {
     const email = req.body.email
     const updatedUser = req.body
-    const status = await usersDao.updateUserInfo(
-        email,
-        updatedUser
-    )
-    // TODO: use a try catch to make here safer
-    req.session['profile'] = updatedUser
-    res.json(status)
+    if (updatedUser.identity === 'host') {
+        const status = await hostsDao.updateUserInfo(
+            email,
+            updatedUser
+        )
+        // TODO: use a try catch to make here safer
+        req.session['profile'] = updatedUser
+        res.json(status)
+    }
+    else {
+        const status = await usersDao.updateUserInfo(
+            email,
+            updatedUser
+        )
+        // TODO: use a try catch to make here safer
+        req.session['profile'] = updatedUser
+        res.json(status)
+    }
 }
 
 // const updateNewHouse = async (req, res) => {
+//     const email = req.body.email
 //     const newhouse = req.body
-//
+//     const status = await hostsDao.updateHostHouse(
+//         email,
+//         newhouse
+//     )
+//     const newProfile = usersDao.findUserByEmail(email)
+//     req.session['profile'] = newProfile
+//     res.json(newProfile)
 // }
+
 
 const userController = (app) => {
     app.get('/api/profile/:id',findUserByUsername)

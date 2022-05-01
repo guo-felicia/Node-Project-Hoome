@@ -41,6 +41,10 @@ const updateUserInfo = (email, updatedUser) => {
     )
 }
 
+// const updateHostHouse = (email, newhouse) => {
+//     return hostsModel.up
+// }
+
 const hostsDao = {
     findAllUsers, findUserById, findUserByEmail, findUserByUsername,
     findUserByCredentials, createUser, deleteUser,
