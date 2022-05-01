@@ -41,6 +41,13 @@ const updateUserInfo = (email, updatedUser) => {
     )
 }
 
+const updateFollowing = (username, following) => {
+    return hostsModel.updateOne(
+        {username: username},
+        {$push: {followers: following}}
+    )
+}
+
 // const updateHostHouse = (email, newhouse) => {
 //     return hostsModel.up
 // }
@@ -48,7 +55,7 @@ const updateUserInfo = (email, updatedUser) => {
 const hostsDao = {
     findAllUsers, findUserById, findUserByEmail, findUserByUsername,
     findUserByCredentials, createUser, deleteUser,
-    updateUser, updateUserInfo
+    updateUser, updateUserInfo, updateFollowing
 }
 
 export default hostsDao;

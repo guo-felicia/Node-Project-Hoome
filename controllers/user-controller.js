@@ -19,7 +19,15 @@ const findUserByEmail = async (req, res) => {
 const findUserByUsername = async (req, res) => {
     const username = req.params.id
     const user = await usersDao.findUserByUsername(username)
-    res.json(user)
+    console.log('in find by username')
+    console.log(user)
+    if (user) {
+        res.json(user)
+    }
+    else {
+        const host = await hostsDao.findUserByUsername(username)
+        res.json(host)
+    }
 }
 
 const findUserByCredentials = async (req, res) => {
@@ -141,6 +149,29 @@ const updateUserInfo = async (req, res) => {
     }
 }
 
+
+const addFollowing = async (req, res) => {
+    const username = req.params.id
+    const newFollowing = req.body.following
+    const identity = req.body.identity
+    if (identity === 'host') {
+        const status = await hostsDao.updateFollowing(
+            username,
+            newFollowing
+        )
+        res.json(status)
+    }
+    else {
+        const status = await usersDao.updateFollowing(
+            username,
+            newFollowing
+        )
+        res.json(status)
+    }
+
+
+}
+
 // const updateNewHouse = async (req, res) => {
 //     const email = req.body.email
 //     const newhouse = req.body
@@ -156,6 +187,7 @@ const updateUserInfo = async (req, res) => {
 
 const userController = (app) => {
     app.get('/api/profile/:id',findUserByUsername)
+    app.put('/api/profile/:id', addFollowing)
 
     // app.put('/api/newhouse', updateNewHouse)
 

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 const usersSchema = mongoose.Schema({
     email: {type: String, required: true, unique: true},
+    identity: {type: String, default: 'tenant', required: true},
     username: {type: String, required: true, unique: true}, // aka profile id
     password: {type: String, required: true},
     firstName: {type: String, default: 'New User'},
@@ -10,6 +11,8 @@ const usersSchema = mongoose.Schema({
     location: {type: String, default: ''},
     languages: {type: String, default: ''},
     jobs:{type: String, default: ''},
+    followers: {type: Array, default: []},
+    followings: {type: Array, default: []},
 }, {collection: "users"})
 
 

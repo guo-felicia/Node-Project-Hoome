@@ -42,10 +42,18 @@ const updateUserInfo = (email, updatedUser) => {
     )
 }
 
+const updateFollowing = (username, following) => {
+    return usersModel.updateOne(
+        {username: username},
+        {$push: {followers: following}}
+    )
+}
+
+
 const usersDao = {
     findAllUsers, findUserById, findUserByEmail, findUserByUsername,
     findUserByCredentials, createUser, deleteUser,
-    updateUser, updateUserInfo
+    updateUser, updateUserInfo, updateFollowing
 }
 
 export default usersDao;

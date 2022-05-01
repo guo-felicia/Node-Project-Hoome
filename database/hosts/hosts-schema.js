@@ -11,6 +11,8 @@ const hostsSchema = mongoose.Schema({
     location: {type: String, default: ''},
     languages: {type: String, default: ''},
     jobs:{type: String, default: ''},
+    followers: {type: Array, default: []},
+    followings: {type: Array, default: []},
     houses: {type: Array, default: []}, //newly added
 }, {collection: "users"})
 
