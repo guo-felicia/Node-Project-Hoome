@@ -6,6 +6,7 @@ import questionsController from "./Questions/questions-controller.js";
 import reviewsController from "./Reviews/reviews-controller.js";
 import favoritesController from "./Favorites/favorites-controller.js";
 import userController from "./controllers/user-controller.js";
+import houseController from "./Houses/house-controller.js";
 
 mongoose.connect(`mongodb+srv://felicia:felicia726@cluster0.uovsx.mongodb.net/Hoome?retryWrites=true&w=majority`);
 const app = express();
@@ -39,5 +40,6 @@ questionsController(app);
 reviewsController(app);
 favoritesController(app);
 userController(app);
+houseController(app);
 //Heroku
 app.listen(process.env.PORT || 4000);

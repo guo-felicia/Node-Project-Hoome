@@ -15,8 +15,15 @@ const findResultById = async (req, res) => {
     res.json(result);
 }
 
+const createNewHouse = async (req, res) => {
+    const newHouse = req.body
+    const insertedHouse = await houseDao.createHouse(newHouse)
+    res.json(insertedHouse)
+}
+
 
 const houseController = async(app) => {
+    app.post('/api/newhouse', createNewHouse);
     app.get('/api/search', findAllResults);
     app.get('/api/search/:id', findResultById);
 }

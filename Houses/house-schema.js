@@ -6,8 +6,9 @@ const schema = mongoose.Schema({
     location: String,
     title: String,
     description: String,
-    star: Number,
+    star: {type: Number, default: 5},
     price: String,
-    total: String
+    total: String,
+    postby: String
 }, {collection: 'houses'}); // which collection name
 export default schema; // export schema so it can be used elsewhere

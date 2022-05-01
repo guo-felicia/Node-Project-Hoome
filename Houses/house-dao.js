@@ -4,12 +4,15 @@ export const findAllResults = () => houseModel.find();
 export const findResultById = (id) => {
     return houseModel.findById(id)
 };
+export const createHouse = (house) => {
+    return houseModel.create(house)
+}
 // export const createTuit = (tuit) => tuitsModel.create(tuit);
 // export const deleteTuit = (tid) => tuitsModel.deleteOne({_id: tid});
 // export const updateTuit = (tid, tuit) => tuitsModel.updateOne({_id: tid}, {$set: tuit})
 
 const houseDao = {
-    findAllResults, findResultById
+    findAllResults, findResultById, createHouse,
 }
 export default houseDao;
 

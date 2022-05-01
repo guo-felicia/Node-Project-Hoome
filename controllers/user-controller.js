@@ -1,4 +1,5 @@
 import usersDao from "../database/users/users-dao.js";
+import hostsDao from "../database/hosts/hosts-dao.js";
 
 const findAllUsers = async (req, res) => {
     const users = await usersDao.findAllUsers()
@@ -56,13 +57,26 @@ const updateUser = async (req, res) => {
 // return a json of the new created user if the user been create successfully
 const signup = async (req, res) => {
     const credentials = req.body;
-    const existingUser = await usersDao.findUserByEmail(credentials.email)
-    if(existingUser) {
-        return res.sendStatus(403)
-    } else {
-        const newUser = await usersDao.createUser(credentials)
-        req.session['profile'] = newUser
-        res.json(newUser)
+    let existingUser;
+    if (credentials.role === 'host') {
+        existingUser = await hostsDao.findUserByEmail(credentials.email)
+        if(existingUser) {
+            return res.sendStatus(403)
+        } else {
+            const newUser = await hostsDao.createUser(credentials)
+            req.session['profile'] = newUser
+            res.json(newUser)
+        }
+    }
+    else {
+        existingUser = await usersDao.findUserByEmail(credentials.email)
+        if(existingUser) {
+            return res.sendStatus(403)
+        } else {
+            const newUser = await usersDao.createUser(credentials)
+            req.session['profile'] = newUser
+            res.json(newUser)
+        }
     }
 }
 
@@ -104,8 +118,15 @@ const updateUserInfo = async (req, res) => {
     res.json(status)
 }
 
+// const updateNewHouse = async (req, res) => {
+//     const newhouse = req.body
+//
+// }
+
 const userController = (app) => {
     app.get('/api/profile/:id',findUserByUsername)
+
+    // app.put('/api/newhouse', updateNewHouse)
 
     app.post('/api/signup', signup)
     app.post('/api/signin', signin)
