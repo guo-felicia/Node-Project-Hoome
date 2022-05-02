@@ -1,4 +1,5 @@
 import favoritesDao from "./favorites-dao.js";
+import questionsDao from "../Questions/questions-dao.js";
 //Remove all usage of the array from the tuits-controller
 // and instead import the tuits-dao which will provide
 // the functionality of interacting with the tuits collection.
@@ -23,10 +24,17 @@ const deleteFavorites = async (req, res) => {
     res.send(status);
 }
 
+const findFavoritesByUser = async (req, res) => {
+    const username = req.params.id;
+    const favorites = await favoritesDao.findByUser(username)
+    res.json(favorites)
+}
+
 
 const favoritesController = async (app) => {
     app.post('/api/favorites', addFavorites);
     app.get('/api/favorites', findAllFavorites);
+    app.get('/api/favorites/:id', findFavoritesByUser)
     app.delete('/api/favorites/:id', deleteFavorites);
 }
 
