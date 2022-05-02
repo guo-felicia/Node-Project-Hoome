@@ -19,8 +19,6 @@ const findUserByEmail = async (req, res) => {
 const findUserByUsername = async (req, res) => {
     const username = req.params.id
     const user = await usersDao.findUserByUsername(username)
-    console.log('in find by username')
-    console.log(user)
     if (user) {
         res.json(user)
     }

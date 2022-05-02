@@ -1,4 +1,5 @@
 import questionsDao from "./questions-dao.js";
+import usersDao from "../database/users/users-dao.js";
 //Remove all usage of the array from the tuits-controller
 // and instead import the tuits-dao which will provide
 // the functionality of interacting with the tuits collection.
@@ -35,13 +36,20 @@ const update = async (req, res) => {
     res.send(status);
 }
 
-
+const findByUser = async (req, res) => {
+    const username = req.params.id;
+    const firstName = req.params.name;
+    const name = {firstName: firstName, username: username}
+    const questions = await questionsDao.findByUser(name)
+    res.json(questions)
+}
 
 
 
 const questionsController = async (app) => {
     app.post('/api/questions', create);
     app.get('/api/questions', findAll);
+    app.get('/api/questions/:id/:name', findByUser)
     app.put('/api/questions/:id', update);
     app.delete('/api/questions/:id', deleteQuestion);
 }
